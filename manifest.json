@@ -1,0 +1,11 @@
+{
+  "name": "NC 3D Gestión",
+  "short_name": "NC 3D",
+  "description": "Gestión de cotizaciones, clientes, agenda y stock para impresión 3D",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1120",
+  "theme_color": "#101827",
+  "icons": []
+}

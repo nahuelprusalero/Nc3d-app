@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101827">
+<title>NC 3D · Gestión</title>
+<link rel="manifest" href="manifest.json">
+<style>
+:root{--bg:#0b1120;--panel:#131d30;--panel2:#19263b;--text:#f2f6fc;--muted:#9eacc1;--blue:#3995ff;--line:#2b3b53;--green:#3dd598;--red:#ff7373;--yellow:#ffd166}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px system-ui,-apple-system,Segoe UI,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:11px 14px;background:var(--blue);color:white;font-weight:650}.secondary{background:#26364e}.danger{background:#6d2936}.small{padding:7px 10px;font-size:13px}.wrap{max-width:900px;margin:auto;padding:16px 14px 90px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0 18px}.brand{font-weight:850;font-size:21px;letter-spacing:.3px}.brand span{color:var(--blue)}.sub{color:var(--muted);font-size:12px;margin-top:2px}.status{font-size:11px;color:var(--green);border:1px solid #285d53;padding:6px 9px;border-radius:99px}.tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:18px}.tab{background:#162238;color:#b8c7dc;padding:10px 5px;font-size:13px}.tab.active{background:var(--blue);color:white}.page{display:none}.page.active{display:block}.heading{font-size:22px;font-weight:800;margin:8px 0 4px}.hint{color:var(--muted);font-size:13px;margin-bottom:16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:14px 0}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px;min-width:0}.metric{font-size:24px;font-weight:800;margin-top:7px}.label{color:var(--muted);font-size:12px}.field{display:flex;flex-direction:column;gap:6px;margin-bottom:12px}.field label{font-size:12px;color:#c1cee0}.field input,.field select,.field textarea{width:100%;min-width:0;background:#0c1525;border:1px solid #34445d;border-radius:10px;padding:11px;color:var(--text);outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue)}.field textarea{min-height:75px;resize:vertical}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.full{grid-column:1/-1}.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.sectiontitle{font-size:16px;font-weight:750;margin:18px 0 10px}.item{padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.itemtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.itemname{font-weight:700}.meta{font-size:12px;color:var(--muted);margin-top:4px}.money{font-weight:800;white-space:nowrap}.pill{display:inline-block;border-radius:99px;padding:4px 8px;font-size:11px;background:#243b5c;color:#c7e0ff;margin-top:6px}.pill.green{background:#183f37;color:#70e3ba}.pill.yellow{background:#4a3b1b;color:#ffdf87}.empty{color:var(--muted);font-size:13px;padding:18px 0;text-align:center}.notice{font-size:12px;color:var(--muted);line-height:1.5;margin-top:12px}.bar{height:8px;border-radius:99px;background:#27364b;overflow:hidden;margin-top:8px}.bar>div{height:100%;background:var(--blue)}.footer{position:fixed;bottom:0;left:0;right:0;background:#0b1120eF;border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:flex;justify-content:center;z-index:5}.footerinner{width:100%;max-width:870px;display:flex;justify-content:space-between;align-items:center;gap:10px}.footer small{color:var(--muted)}.hidden{display:none!important}
+@media(min-width:650px){.tabs{grid-template-columns:repeat(6,1fr)}.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.formgrid{grid-template-columns:repeat(3,minmax(0,1fr))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:360px){.wrap{padding-left:10px;padding-right:10px}.brand{font-size:18px}.metric{font-size:20px}.tab{font-size:11px}.formgrid{gap:7px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header class="top"><div><div class="brand">NC <span>3D</span> · Gestión</div><div class="sub">Cotizaciones · Clientes · Taller</div></div><div class="status" id="netStatus">● Sin conexión</div></header>
+ <nav class="tabs" id="tabs">
+  <button class="tab active" data-page="inicio">Inicio</button><button class="tab" data-page="cotizar">Cotizar</button><button class="tab" data-page="agenda">Agenda</button><button class="tab" data-page="clientes">Clientes</button><button class="tab" data-page="stock">Stock</button><button class="tab" data-page="gastos">Gastos</button>
+ </nav>
+ <section class="page active" id="inicio">
+  <div class="heading">Resumen del taller</div><div class="hint">Tus números principales, guardados en este dispositivo.</div>
+  <div class="cards">
+   <div class="card"><div class="label">Cotizaciones</div><div class="metric" id="mQuotes">0</div></div>
+   <div class="card"><div class="label">Trabajos agendados</div><div class="metric" id="mJobs">0</div></div>
+   <div class="card"><div class="label">Clientes</div><div class="metric" id="mClients">0</div></div>
+   <div class="card"><div class="label">Valor del stock</div><div class="metric" id="mStock">$0</div></div>
+  </div>
+  <div class="panel"><div class="itemtop"><div><div class="itemname">Próximos trabajos</div><div class="meta">Ordenados por fecha</div></div><button class="small" onclick="showPage('agenda')">Ver agenda</button></div><div id="upcoming"></div></div>
+  <div class="sectiontitle">Acciones rápidas</div><div class="grid"><button onclick="showPage('cotizar')">＋ Nueva cotización</button><button class="secondary" onclick="showPage('agenda')">＋ Agendar trabajo</button><button class="secondary" onclick="showPage('stock')">＋ Cargar filamento</button><button class="secondary" onclick="showPage('gastos')">＋ Registrar gasto</button></div>
+  <p class="notice">Los datos se guardan en el almacenamiento del navegador de este celular. Usá “Exportar copia” periódicamente para tener respaldo.</p>
+ </section>
+ <section class="page" id="cotizar">
+  <div class="heading">Cotizador 3D</div><div class="hint">Calculá el costo real y agregá tu margen. Los valores se pueden editar antes de guardar.</div>
+  <div class="panel">
+   <form id="quoteForm">
+    <div class="formgrid">
+     <div class="field"><label>Nombre de la pieza / trabajo</label><input id="qName" required placeholder="Ej. Soporte para manómetro"></div>
+     <div class="field"><label>Cliente</label><select id="qClient"><option value="">Sin asignar</option></select></div>
+     <div class="field"><label>Material</label><select id="qMaterial"><option>PLA</option><option>PETG</option><option>ABS/ASA</option><option>TPU</option><option>Otro</option></select></div>
+     <div class="field"><label>Gramos de filamento (g)</label><input id="qGrams" type="number" min="0" step="0.1" value="100" required></div>
+     <div class="field"><label>Precio bobina ($/kg)</label><input id="qSpool" type="number" min="0" value="25000" required></div>
+     <div class="field"><label>Desperdicio (%)</label><input id="qWaste" type="number" min="0" max="300" value="10"></div>
+     <div class="field"><label>Horas de impresión</label><input id="qPrintHours" type="number" min="0" step=".1" value="4"></div>
+     <div class="field"><label>Tarifa máquina por hora ($)</label><input id="qMachineRate" type="number" min="0" value="700"></div>
+     <div class="field"><label>Horas de diseño</label><input id="qDesignHours" type="number" min="0" step=".1" value="1"></div>
+     <div class="field"><label>Tarifa diseño por hora ($)</label><input id="qDesignRate" type="number" min="0" value="4000"></div>
+     <div class="field"><label>Mano de obra / acabado ($)</label><input id="qLabor" type="number" min="0" value="0"></div>
+     <div class="field"><label>Envío ($)</label><input id="qShipping" type="number" min="0" value="0"></div>
+     <div class="field"><label>Packaging / paquetería ($)</label><input id="qPack" type="number" min="0" value="500"></div>
+     <div class="field"><label>Otros gastos ($)</label><input id="qExtra" type="number" min="0" value="0"></div>
+     <div class="field"><label>Margen sobre costo (%)</label><input id="qMargin" type="number" min="0" value="40"></div>
+    </div>
+    <div class="panel" style="background:#0c1525;margin-top:6px"><div class="itemtop"><div><div class="label">Costo estimado</div><div class="metric" id="qCost">$0</div></div><div style="text-align:right"><div class="label">Precio sugerido</div><div class="metric" id="qPrice">$0</div></div></div><div class="meta" id="qBreakdown"></div></div>
+    <div class="field" style="margin-top:12px"><label>Notas / especificaciones</label><textarea id="qNotes" placeholder="Medidas, color, tolerancias, cantidad…"></textarea></div>
+    <div class="actions"><button type="submit">Guardar cotización</button><button class="secondary" type="button" onclick="resetQuote()">Limpiar</button></div>
+   </form>
+  </div>
+  <div class="sectiontitle">Cotizaciones guardadas</div><div class="panel" id="quotesList"></div>
+ </section>
+ <section class="page" id="agenda">
+  <div class="heading">Agenda de trabajos</div><div class="hint">Registrá entregas, avances y horas trabajadas.</div>
+  <div class="panel"><form id="jobForm"><div class="formgrid">
+   <div class="field"><label>Trabajo</label><input id="jTitle" required placeholder="Nombre del trabajo"></div>
+   <div class="field"><label>Cliente</label><select id="jClient"><option value="">Sin asignar</option></select></div>
+   <div class="field"><label>Fecha de entrega</label><input id="jDate" type="date" required></div>
+   <div class="field"><label>Estado</label><select id="jStatus"><option>Agendado</option><option>Diseño</option><option>Imprimiendo</option><option>Postprocesado</option><option>Listo para entregar</option><option>Entregado</option><option>Cancelado</option></select></div>
+   <div class="field"><label>Horas de diseño realizadas</label><input id="jDesign" type="number" min="0" step=".25" value="0"></div>
+   <div class="field"><label>Horas de trabajo / acabado</label><input id="jHours" type="number" min="0" step=".25" value="0"></div>
+   <div class="field"><label>Precio acordado ($)</label><input id="jPrice" type="number" min="0" value="0"></div>
+   <div class="field full"><label>Notas</label><textarea id="jNotes" placeholder="Progreso, medidas, color, entrega…"></textarea></div>
+  </div><button type="submit">Agendar trabajo</button></form></div>
+  <div class="sectiontitle">Trabajos registrados</div><div class="panel" id="jobsList"></div>
+ </section>
+ <section class="page" id="clientes">
+  <div class="heading">Clientes</div><div class="hint">Guardá los datos y consultá el historial desde este dispositivo.</div>
+  <div class="panel"><form id="clientForm"><div class="formgrid">
+   <div class="field"><label>Nombre / empresa</label><input id="cName" required placeholder="Nombre del cliente"></div>
+   <div class="field"><label>WhatsApp / teléfono</label><input id="cPhone" inputmode="tel" placeholder="11…"></div>
+   <div class="field"><label>Email (opcional)</label><input id="cEmail" type="email" placeholder="correo@ejemplo.com"></div>
+   <div class="field full"><label>Notas</label><textarea id="cNotes" placeholder="Preferencias, dirección de entrega…"></textarea></div>
+  </div><button type="submit">Guardar cliente</button></form></div>
+  <div class="sectiontitle">Listado de clientes</div><div class="panel" id="clientsList"></div>
+ </section>
+ <section class="page" id="stock">
+  <div class="heading">Stock de filamentos</div><div class="hint">Registrá bobinas y descontá el material usado en cada impresión.</div>
+  <div class="panel"><form id="stockForm"><div class="formgrid">
+   <div class="field"><label>Material / marca</label><input id="sName" required placeholder="PETG negro"></div>
+   <div class="field"><label>Color</label><input id="sColor" placeholder="Negro"></div>
+   <div class="field"><label>Stock actual (g)</label><input id="sGrams" type="number" min="0" required placeholder="1000"></div>
+   <div class="field"><label>Costo por kg ($)</label><input id="sCost" type="number" min="0" required value="25000"></div>
+   <div class="field"><label>Alerta cuando quede (g)</label><input id="sAlert" type="number" min="0" value="200"></div>
+  </div><button type="submit">Agregar filamento</button></form></div>
+  <div class="sectiontitle">Inventario</div><div id="stockList" class="panel"></div>
+ </section>
+ <section class="page" id="gastos">
+  <div class="heading">Gastos del negocio</div><div class="hint">Registrá compras, envíos, paquetería y gastos extras.</div>
+  <div class="panel"><form id="expenseForm"><div class="formgrid">
+   <div class="field"><label>Concepto</label><input id="eName" required placeholder="Ej. Caja de envío"></div>
+   <div class="field"><label>Categoría</label><select id="eCategory"><option>Filamento</option><option>Envío</option><option>Paquetería</option><option>Repuesto / mantenimiento</option><option>Electricidad</option><option>Herramientas</option><option>Otros</option></select></div>
+   <div class="field"><label>Importe ($)</label><input id="eAmount" type="number" min="0" required></div>
+   <div class="field"><label>Fecha</label><input id="eDate" type="date" required></div>
+   <div class="field full"><label>Notas</label><textarea id="eNotes"></textarea></div>
+  </div><button type="submit">Registrar gasto</button></form></div>
+  <div class="cards"><div class="card"><div class="label">Gastos registrados</div><div class="metric" id="eTotal">$0</div></div><div class="card"><div class="label">Este mes</div><div class="metric" id="eMonth">$0</div></div></div>
+  <div class="sectiontitle">Historial de gastos</div><div class="panel" id="expensesList"></div>
+ </section>
+ <div class="footer"><div class="footerinner"><small>NC 3D · datos locales</small><div class="actions" style="margin:0"><button class="secondary small" onclick="exportData()">Exportar copia</button><button class="secondary small" onclick="document.getElementById('importFile').click()">Importar</button></div><input id="importFile" type="file" accept="application/json" class="hidden"></div></div>
+</div>
+<script>
+const KEY='nc3d_manager_v1';
+const blank=()=>({clients:[],quotes:[],jobs:[],stock:[],expenses:[]});
+let db=load();
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||blank()}catch(e){return blank()}}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));render()}
+const $=id=>document.getElementById(id);
+const num=id=>Math.max(0,Number($(id).value)||0);
+const money=n=>new Intl.NumberFormat('es-AR',{style:'currency',currency:'ARS',maximumFractionDigits:0}).format(n||0);
+const today=()=>new Date().toLocaleDateString('en-CA');
+function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function showPage(id){document.querySelectorAll('.page').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.page===id));window.scrollTo(0,0)}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+function populateClients(){for(const id of ['qClient','jClient']){const el=$(id),v=el.value;el.innerHTML='<option value="">Sin asignar</option>'+db.clients.map(c=>`<option value="${c.id}">${escapeHtml(c.name)}</option>`).join('');el.value=v}}
+function clientName(id){return db.clients.find(c=>c.id===id)?.name||'Sin asignar'}
+function quoteCalc(){let material=num('qGrams')*(1+num('qWaste')/100)*num('qSpool')/1000;let machine=num('qPrintHours')*num('qMachineRate');let design=num('qDesignHours')*num('qDesignRate');let other=material+machine+design+num('qLabor')+num('qShipping')+num('qPack')+num('qExtra');let price=other*(1+num('qMargin')/100);$('qCost').textContent=money(other);$('qPrice').textContent=money(price);$('qBreakdown').textContent=`Filamento ${money(material)} · Máquina ${money(machine)} · Diseño ${money(design)} · Extras, envío y acabado ${money(num('qLabor')+num('qShipping')+num('qPack')+num('qExtra'))}`;return {material,machine,design,cost:other,price}}
+['qGrams','qSpool','qWaste','qPrintHours','qMachineRate','qDesignHours','qDesignRate','qLabor','qShipping','qPack','qExtra','qMargin'].forEach(id=>$(id).addEventListener('input',quoteCalc));
+function resetQuote(){$('quoteForm').reset();$('qGrams').value=100;$('qSpool').value=25000;$('qWaste').value=10;$('qPrintHours').value=4;$('qMachineRate').value=700;$('qDesignHours').value=1;$('qDesignRate').value=4000;$('qPack').value=500;$('qMargin').value=40;quoteCalc()}
+$('quoteForm').addEventListener('submit',e=>{e.preventDefault();const calc=quoteCalc();db.quotes.unshift({id:uid(),name:$('qName').value.trim(),clientId:$('qClient').value,material:$('qMaterial').value,grams:num('qGrams'),spool:num('qSpool'),waste:num('qWaste'),printHours:num('qPrintHours'),machineRate:num('qMachineRate'),designHours:num('qDesignHours'),designRate:num('qDesignRate'),labor:num('qLabor'),shipping:num('qShipping'),pack:num('qPack'),extra:num('qExtra'),margin:num('qMargin'),cost:calc.cost,price:calc.price,notes:$('qNotes').value,date:today()});save();alert('Cotización guardada');});
+$('jobForm').addEventListener('submit',e=>{e.preventDefault();db.jobs.push({id:uid(),title:$('jTitle').value.trim(),clientId:$('jClient').value,date:$('jDate').value,status:$('jStatus').value,design:num('jDesign'),hours:num('jHours'),price:num('jPrice'),notes:$('jNotes').value});save();$('jobForm').reset();$('jDate').value=today();$('jDesign').value=0;$('jHours').value=0;$('jPrice').value=0});
+$('clientForm').addEventListener('submit',e=>{e.preventDefault();db.clients.push({id:uid(),name:$('cName').value.trim(),phone:$('cPhone').value.trim(),email:$('cEmail').value.trim(),notes:$('cNotes').value.trim()});save();$('clientForm').reset()});
+$('stockForm').addEventListener('submit',e=>{e.preventDefault();db.stock.push({id:uid(),name:$('sName').value.trim(),color:$('sColor').value.trim(),grams:num('sGrams'),cost:num('sCost'),alert:num('sAlert')});save();$('stockForm').reset();$('sCost').value=25000;$('sAlert').value=200});
+$('expenseForm').addEventListener('submit',e=>{e.preventDefault();db.expenses.unshift({id:uid(),name:$('eName').value.trim(),category:$('eCategory').value,amount:num('eAmount'),date:$('eDate').value||today(),notes:$('eNotes').value});save();$('expenseForm').reset();$('eDate').value=today()});
+function removeItem(type,id){if(!confirm('¿Eliminar este registro?'))return;db[type]=db[type].filter(x=>x.id!==id);save()}
+function updateJob(id,key,val){let j=db.jobs.find(x=>x.id===id);if(j){j[key]=val;save()}}
+function consumeStock(id){const item=db.stock.find(x=>x.id===id);if(!item)return;let val=prompt('¿Cuántos gramos querés descontar?', '100');if(val===null)return;let g=Number(val);if(!Number.isFinite(g)||g<=0){alert('Ingresá gramos válidos');return}if(g>item.grams&&!confirm('El consumo supera el stock. ¿Dejar stock en cero?'))return;item.grams=Math.max(0,item.grams-g);save()}
+function render(){
+ populateClients();
+ $('mQuotes').textContent=db.quotes.length;$('mJobs').textContent=db.jobs.filter(j=>!['Entregado','Cancelado'].includes(j.status)).length;$('mClients').textContent=db.clients.length;$('mStock').textContent=money(db.stock.reduce((s,x)=>s+x.grams*x.cost/1000,0));
+ const upcoming=[...db.jobs].filter(j=>!['Entregado','Cancelado'].includes(j.status)).sort((a,b)=>(a.date||'').localeCompare(b.date||'')).slice(0,4);
+ $('upcoming').innerHTML=upcoming.length?upcoming.map(j=>`<div class="item"><div class="itemtop"><div><div class="itemname">${escapeHtml(j.title)}</div><div class="meta">${escapeHtml(j.date||'Sin fecha')} · ${escapeHtml(clientName(j.clientId))}</div></div><span class="pill">${escapeHtml(j.status)}</span></div></div>`).join(''):'<div class="empty">Todavía no hay trabajos agendados.</div>';
+ $('quotesList').innerHTML=db.quotes.length?db.quotes.map(q=>`<div class="item"><div class="itemtop"><div><div class="itemname">${escapeHtml(q.name)}</div><div class="meta">${escapeHtml(clientName(q.clientId))} · ${escapeHtml(q.date)} · ${escapeHtml(q.material)} · ${q.grams} g</div><div class="meta">Costo ${money(q.cost)} · Margen ${q.margin}%</div></div><div style="text-align:right"><div class="money">${money(q.price)}</div><button class="small secondary" onclick="makeJob('${q.id}')">Agendar</button><button class="small danger" onclick="removeItem('quotes','${q.id}')">×</button></div></div>${q.notes?`<div class="meta">${escapeHtml(q.notes)}</div>`:''}</div>`).join(''):'<div class="empty">Todavía no guardaste cotizaciones.</div>';
+ $('jobsList').innerHTML=db.jobs.length?[...db.jobs].sort((a,b)=>(a.date||'').localeCompare(b.date||'')).map(j=>`<div class="item"><div class="itemtop"><div><div class="itemname">${escapeHtml(j.title)}</div><div class="meta">${escapeHtml(j.date)} · ${escapeHtml(clientName(j.clientId))} · ${money(j.price)}</div><div class="meta">Diseño: ${j.design} h · Trabajo: ${j.hours} h</div></div><button class="small danger" onclick="removeItem('jobs','${j.id}')">Eliminar</button></div><div class="field" style="margin-top:10px;margin-bottom:0"><label>Estado del trabajo</label><select onchange="updateJob('${j.id}','status',this.value)">${['Agendado','Diseño','Imprimiendo','Postprocesado','Listo para entregar','Entregado','Cancelado'].map(s=>`<option ${j.status===s?'selected':''}>${s}</option>`).join('')}</select></div>${j.notes?`<div class="meta">${escapeHtml(j.notes)}</div>`:''}</div>`).join(''):'<div class="empty">No hay trabajos cargados.</div>';
+ $('clientsList').innerHTML=db.clients.length?db.clients.map(c=>`<div class="item"><div class="itemtop"><div><div class="itemname">${escapeHtml(c.name)}</div><div class="meta">${escapeHtml(c.phone||'Sin teléfono')} ${c.email?'· '+escapeHtml(c.email):''}</div><div class="meta">${db.quotes.filter(q=>q.clientId===c.id).length} cotización(es) · ${db.jobs.filter(j=>j.clientId===c.id).length} trabajo(s)</div>${c.notes?`<div class="meta">${escapeHtml(c.notes)}</div>`:''}</div><button class="small danger" onclick="removeItem('clients','${c.id}')">Eliminar</button></div></div>`).join(''):'<div class="empty">Todavía no hay clientes.</div>';
+ $('stockList').innerHTML=db.stock.length?db.stock.map(s=>{let low=s.grams<=s.alert;return `<div class="item"><div class="itemtop"><div><div class="itemname">${escapeHtml(s.name)} ${s.color?'· '+escapeHtml(s.color):''}</div><div class="meta">${s.grams.toFixed(1)} g disponibles · ${money(s.cost)}/kg</div><div class="bar"><div style="width:${Math.min(100,s.grams/1000*100)}%"></div></div><span class="pill ${low?'yellow':'green'}">${low?'Stock bajo':'En stock'}</span></div><div style="text-align:right"><div class="money">${money(s.grams*s.cost/1000)}</div><button class="small secondary" onclick="consumeStock('${s.id}')">− gramos</button><button class="small danger" onclick="removeItem('stock','${s.id}')">×</button></div></div></div>`}).join(''):'<div class="empty">Agregá tus bobinas para empezar a controlar el stock.</div>';
+ let total=db.expenses.reduce((s,x)=>s+x.amount,0),month=new Date().toISOString().slice(0,7);$('eTotal').textContent=money(total);$('eMonth').textContent=money(db.expenses.filter(x=>(x.date||'').startsWith(month)).reduce((s,x)=>s+x.amount,0));
+ $('expensesList').innerHTML=db.expenses.length?db.expenses.map(x=>`<div class="item"><div class="itemtop"><div><div class="itemname">${escapeHtml(x.name)}</div><div class="meta">${escapeHtml(x.date)} · ${escapeHtml(x.category)}</div>${x.notes?`<div class="meta">${escapeHtml(x.notes)}</div>`:''}</div><div style="text-align:right"><div class="money">${money(x.amount)}</div><button class="small danger" onclick="removeItem('expenses','${x.id}')">×</button></div></div></div>`).join(''):'<div class="empty">Todavía no registraste gastos.</div>';
+}
+function makeJob(id){const q=db.quotes.find(q=>q.id===id);if(!q)return;showPage('agenda');$('jTitle').value=q.name;$('jClient').value=q.clientId;$('jPrice').value=Math.round(q.price);$('jNotes').value=q.notes||'';$('jDate').value=today();$('jStatus').value='Agendado';}
+function exportData(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='nc3d-respaldo-'+today()+'.json';a.click();URL.revokeObjectURL(a.href)}
+$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const d=JSON.parse(await f.text());if(!d.clients||!d.quotes||!d.jobs||!d.stock||!d.expenses)throw Error();if(confirm('Esto reemplazará los datos actuales. ¿Continuar?')){db=d;save();alert('Respaldo importado')}}catch(err){alert('El archivo no parece ser un respaldo válido de NC 3D')}e.target.value=''});
+function setDates(){$('jDate').value=today();$('eDate').value=today()}
+function net(){const online=navigator.onLine;$('netStatus').textContent=online?'● Conectado':'● Sin conexión';$('netStatus').style.color=online?'var(--green)':'var(--yellow)'}
+window.addEventListener('online',net);window.addEventListener('offline',net);
+setDates();quoteCalc();render();net();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
